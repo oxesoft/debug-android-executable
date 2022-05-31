@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch on Android",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/libs/arm64-v8a/main", // change to your android architecture if necessary
+            "initCommands": [
+                "platform select remote-android",
+                "platform connect connect://localhost:5039",
+                "file ${workspaceFolder}/libs/arm64-v8a/main" // same path as in "program"
+            ]
+        }
+    ]
+}

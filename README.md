@@ -1,34 +1,31 @@
 How to build and debug a native Android executable
 ==================================================
 
+
+Common instructions
+-------------------
+- make sure you have an Android phone plugged on a USB port and available to adb
+- make sure you have Android SDK installed and configured with `adb` and `ndk-build` available on the system PATH
 ```
-# make sure you have an Android phone plugged on a USB port and available to adb
-# make sure you have ANDROID_SDK_HOME configured and added to the PATH
-# make sure you have NDK_HOME configured and added to the PATH
-# make sure you have lldb available in the host machine
-
-# build the executable
-ndk-build
-
 # locate the lldb-server executable in the Android SDK
 find $ANDROID_SDK_HOME -name lldb-server
 
 # push the one applicable to your Android device archtecture
-adb push __PATH_TO_LLDB_SERVER_IN_NDK_HOME/lldb-server /data/local/tmp/
+adb push __PATH_TO_LLDB_SERVER_IN_ANDROID_SDK_HOME/lldb-server /data/local/tmp/
 
-# expose the port lldb-server default port to the host machine
-adb forward tcp:5039 tcp:5039
+# run lldb-server on Android in a separate terminal session
+adb shell "cd /data/local/tmp && ./lldb-server platform --server --listen localhost:5039"
+```
 
-# get into the Android's shell on a separate terminal session
-adb shell
+Debugging on command line (the harder way)
+------------------------------------------
+```
+# open a new terminal session and make sure you have 'lldb' available on the host machine
 
-# change to the path where we uploaded lldb-server
-cd /data/local/tmp
+# build the executable
+ndk-build
 
-# run lldb-server
-./lldb-server platform --server --listen localhost:5039
-
-# back to the first terminal session, get into lldb REPL
+# get into lldb REPL
 lldb
 
 # run the following commands
@@ -40,6 +37,14 @@ lldb
 
 # now you should see something similar to the following screen:
 ```
-![screenshot](screenshot.png)
+![terminal](terminal.png)
 
 For more information, see [this](https://lldb.llvm.org/use/tutorial.html) page.
+
+On Visual Studio Code (the easiest way)
+---------------------------------------
+- Make sure you have CodeLLDB extension installed
+- Press F5 🙂
+You should see something similar to the following screen:
+
+![vscode](vscode.png)
